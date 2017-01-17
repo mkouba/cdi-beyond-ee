@@ -18,13 +18,13 @@ package com.github.mkouba.cdibee.vertx;
 import static io.restassured.RestAssured.get;
 import static org.hamcrest.core.IsEqual.equalTo;
 
+import org.jboss.weld.vertx.WeldVerticle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.githhub.mkouba.cdibee.HelloRouteHandler;
-import com.githhub.mkouba.cdibee.HelloVerticle;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.unit.Async;
@@ -46,16 +46,21 @@ public class HelloRouteHandlerTest {
     public void init(TestContext context) {
         vertx = Vertx.vertx();
         Async async = context.async();
-        final HelloVerticle helloVerticle = new HelloVerticle();
-        vertx.deployVerticle(helloVerticle, deploy -> {
+
+        // This Verticle starts Weld SE container
+        final WeldVerticle weldVerticle = new WeldVerticle();
+
+        vertx.deployVerticle(weldVerticle, deploy -> {
             if (deploy.succeeded()) {
                 // Let's configure the router after Weld bootstrap finished
                 Router router = Router.router(vertx);
                 router.route().handler(BodyHandler.create());
 
                 // Matches all HTTP methods and accepts all content types
-                router.route().path("/hello").blockingHandler(helloVerticle.container().select(HelloRouteHandler.class).get());
+                // We pass a bean instance as a blocking handler
+                router.route().path("/hello").blockingHandler(weldVerticle.container().select(HelloRouteHandler.class).get());
 
+                // Now start the webserver
                 vertx.createHttpServer().requestHandler(router::accept).listen(8080, (listen) -> {
                     if (listen.succeeded()) {
                         async.complete();
@@ -73,7 +78,7 @@ public class HelloRouteHandlerTest {
     @Test
     public void testHelloRoute() {
         // We're using RestAssured API
-        get("/hello?name=Jay").then().assertThat().statusCode(200).body(equalTo("Hello Jay!"));
+        get("http;//localhost:8080/hello?name=Jay").then().assertThat().statusCode(200).body(equalTo("Hello Jay!"));
     }
 
 }

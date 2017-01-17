@@ -15,10 +15,9 @@
  */
 package com.github.mkouba.cdibee.event;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
@@ -27,20 +26,10 @@ import com.githhub.mkouba.cdibee.HelloMessage;
 @ApplicationScoped
 public class DummyObserver {
 
-    private List<String> messages;
-
-    @PostConstruct
-    void init() {
-        messages = new ArrayList<>();
-    }
+    static final List<String> MESSAGES = new CopyOnWriteArrayList<>();
 
     public void observeHelloMessage(@Observes @HelloMessage String message) {
-        messages.add(message);
-    }
-
-    // Note that this bean is @ApplicationScoped and so may not access the "messages" field directly
-    List<String> getMessages() {
-        return messages;
+        MESSAGES.add(message);
     }
 
 }

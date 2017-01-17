@@ -36,10 +36,13 @@ public class HelloServiceDecoratorTest {
         try (WeldContainer container = testWeld()
                 .beanClasses(HelloService.class, HelloServiceDecorator.class, DummyHelloService.class)
                 .initialize()) {
+
             // Obtain dummy HelloService
             HelloService helloService = container.select(HelloService.class).get();
+
             // Test forbidden word
             assertEquals("<censored>", helloService.hello("poo"));
+
             // Test allowed word
             assertEquals("Martin", helloService.hello("Martin"));
         }

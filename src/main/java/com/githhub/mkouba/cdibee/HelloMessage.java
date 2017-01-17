@@ -31,6 +31,7 @@ import javax.inject.Qualifier;
  * Qualifier used to distinguish hello message events.
  *
  * @author Martin Kouba
+ * @see EventHelloService
  */
 @Qualifier
 @Target({ TYPE, METHOD, PARAMETER, FIELD })

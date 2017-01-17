@@ -21,6 +21,7 @@ import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
+ * Vert.x handler used for "/hello" route in our webapp.
  *
  * @author Martin Kouba
  */

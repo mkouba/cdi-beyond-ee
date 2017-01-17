@@ -15,26 +15,40 @@
  */
 package com.githhub.mkouba.cdibee;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 /**
- * Implementation of {@link HelloService} which also fires an event whose payload is a concrete hello message.
+ * Implementation of {@link HelloService} which also fires an event whenever a unique hello message (event payload) is constructed.
  *
  * @author Martin Kouba
  */
 @ApplicationScoped
 public class EventHelloService implements HelloService {
 
+    private List<String> fired;
+
     @Inject
     @HelloMessage
-    Event<String> event;
+    private Event<String> event;
 
     public String hello(String name) {
         String message = HelloService.super.hello(name);
-        event.fire(message);
+        if (!fired.contains(message)) {
+            fired.add(message);
+            event.fire(message);
+        }
         return message;
+    }
+
+    @PostConstruct
+    void init() {
+        fired = new CopyOnWriteArrayList<>();
     }
 
 }

@@ -35,15 +35,21 @@ public class EventHelloServiceTest {
         try (WeldContainer container = testWeld()
                 .beanClasses(HelloService.class, EventHelloService.class, DummyObserver.class)
                 .initialize()) {
-            String name = "poo";
-            String expectedMessage = "Hello " + name + "!";
-            // Get EventHelloService bean instance
-            HelloService helloService = container.select(HelloService.class).get();
-            assertEquals(expectedMessage, helloService.hello(name));
-            // Invocation of hello() should also fire an event
-            DummyObserver dummyObserver = container.select(DummyObserver.class).get();
-            assertEquals(1, dummyObserver.getMessages().size());
-            assertEquals(expectedMessage, dummyObserver.getMessages().get(0));
+        String name = "Brian";
+        String expectedMessage = "Hello " + name + "!";
+
+        // Get EventHelloService bean instance
+        HelloService helloService = container.select(HelloService.class).get();
+
+        // Call hello() - should also fire an event
+        assertEquals(expectedMessage, helloService.hello(name));
+        assertEquals(1, DummyObserver.MESSAGES.size());
+        assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
+
+        // Call hello() again - a new event should not be fired
+        assertEquals(expectedMessage, helloService.hello(name));
+        assertEquals(1, DummyObserver.MESSAGES.size());
+        assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
         }
     }
 
