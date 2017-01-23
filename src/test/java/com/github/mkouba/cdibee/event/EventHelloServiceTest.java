@@ -15,9 +15,9 @@
  */
 package com.github.mkouba.cdibee.event;
 
-import static com.github.mkouba.cdibee.HelloServiceTest.testWeld;
 import static org.junit.Assert.assertEquals;
 
+import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.Test;
 
@@ -25,6 +25,7 @@ import com.githhub.mkouba.cdibee.EventHelloService;
 import com.githhub.mkouba.cdibee.HelloService;
 
 /**
+ * This test demonstrates the usage of Weld SE to test functionality provided by {@link EventHelloService}.
  *
  * @author Martin Kouba
  */
@@ -32,24 +33,27 @@ public class EventHelloServiceTest {
 
     @Test
     public void testHello() {
-        try (WeldContainer container = testWeld()
+        try (WeldContainer container = new Weld()
+                .disableDiscovery()
+                .property("org.jboss.weld.bootstrap.concurrentDeployment", false)
                 .beanClasses(HelloService.class, EventHelloService.class, DummyObserver.class)
                 .initialize()) {
-        String name = "Brian";
-        String expectedMessage = "Hello " + name + "!";
+            
+            String name = "Brian";
+            String expectedMessage = "Hello " + name + "!";
 
-        // Get EventHelloService bean instance
-        HelloService helloService = container.select(HelloService.class).get();
+            // Get EventHelloService bean instance
+            HelloService helloService = container.select(HelloService.class).get();
 
-        // Call hello() - should also fire an event
-        assertEquals(expectedMessage, helloService.hello(name));
-        assertEquals(1, DummyObserver.MESSAGES.size());
-        assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
+            // Call hello() - should also fire an event
+            assertEquals(expectedMessage, helloService.hello(name));
+            assertEquals(1, DummyObserver.MESSAGES.size());
+            assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
 
-        // Call hello() again - a new event should not be fired
-        assertEquals(expectedMessage, helloService.hello(name));
-        assertEquals(1, DummyObserver.MESSAGES.size());
-        assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
+            // Call hello() again - a new event should not be fired
+            assertEquals(expectedMessage, helloService.hello(name));
+            assertEquals(1, DummyObserver.MESSAGES.size());
+            assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
         }
     }
 

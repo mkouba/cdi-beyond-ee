@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.githhub.mkouba.cdibee;
+package com.githhub.mkouba.cdibee.vertx;
 
 import javax.inject.Inject;
+
+import com.githhub.mkouba.cdibee.HelloService;
 
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;

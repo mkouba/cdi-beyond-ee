@@ -39,7 +39,7 @@ public class HelloServiceTest {
 
     @Test
     public void testHelloService2() {
-        // try-with-resources
+        // Use try-with-resources to shutdown Weld correctly
         try (WeldContainer container = new Weld().initialize()) {
             HelloService helloService = container.select(HelloService.class).get();
             assertEquals("Hello world!", helloService.hello("world"));
@@ -48,18 +48,15 @@ public class HelloServiceTest {
 
     @Test
     public void testHelloService3() {
-        // Bootstrap optimized for tests
-        try (WeldContainer container = testWeld()
+        // Start Weld with bootstrap optimized for tests
+        try (WeldContainer container = new Weld()
+                .disableDiscovery()
                 .packages(HelloService.class)
+                .property("org.jboss.weld.bootstrap.concurrentDeployment", false)
                 .initialize()) {
             HelloService helloService = container.select(HelloService.class).get();
             assertEquals("Hello world!", helloService.hello("world"));
         }
-    }
-
-    public static Weld testWeld() {
-        // Disable discovery and concurrent deployment
-        return new Weld().disableDiscovery().property("org.jboss.weld.bootstrap.concurrentDeployment", false);
     }
 
 }

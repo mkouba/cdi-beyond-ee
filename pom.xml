@@ -11,6 +11,7 @@
       <maven.compiler.target>1.8</maven.compiler.target>
       <!-- Versions -->
       <version.weld>2.4.1.Final</version.weld>
+      <version.weld-junit>1.0.0.Beta1</version.weld-junit>
       <version.vertx>3.3.3</version.vertx>
       <version.weld-vertx>1.0.0.CR3</version.weld-vertx>
       <version.junit>4.12</version.junit>
@@ -54,19 +55,37 @@
       </dependency>
 
       <dependency>
+         <groupId>org.jboss.weld</groupId>
+         <artifactId>weld-junit4</artifactId>
+         <version>${version.weld-junit}</version>
+         <scope>test</scope>
+      </dependency>
+
+      <dependency>
          <groupId>io.rest-assured</groupId>
          <artifactId>rest-assured</artifactId>
          <version>${version.rest.assured}</version>
          <scope>test</scope>
       </dependency>
 
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-simple</artifactId>
-         <version>${version.slf4j}</version>
-         <scope>test</scope>
-      </dependency>
-
    </dependencies>
+
+   <build>
+
+      <plugins>
+         <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+               <systemProperties>
+                  <property>
+                     <name>java.util.logging.config.file</name>
+                     <value>${project.build.testOutputDirectory}/logging.properties</value>
+                  </property>
+               </systemProperties>
+            </configuration>
+         </plugin>
+      </plugins>
+
+   </build>
 
 </project>

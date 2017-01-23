@@ -15,10 +15,10 @@
  */
 package com.github.mkouba.cdibee.decorator;
 
-import static com.github.mkouba.cdibee.HelloServiceTest.testWeld;
 import static org.junit.Assert.assertEquals;
 
-import org.jboss.weld.environment.se.WeldContainer;
+import org.jboss.weld.junit4.WeldInitiator;
+import org.junit.Rule;
 import org.junit.Test;
 
 import com.githhub.mkouba.cdibee.HelloService;
@@ -26,26 +26,27 @@ import com.githhub.mkouba.cdibee.HelloServiceDecorator;
 
 /**
  * This test demonstrates the usage of Weld SE to test functionality provided by {@link HelloServiceDecorator}.
- *
+ * 
+ * <p>
+ * This test makes use of {@link WeldInitiator} - a test rule provided by <tt>weld-junit4</tt> artifact. For more info check
+ * <a href="https://github.com/weld/weld-junit">https://github.com/weld/weld-junit</a>
+ * </p>
+ * 
  * @author Martin Kouba
  */
 public class HelloServiceDecoratorTest {
 
+    @Rule
+    public WeldInitiator weld = WeldInitiator.of(HelloService.class, HelloServiceDecorator.class, DummyHelloService.class);
+
     @Test
     public void testDecorator() {
-        try (WeldContainer container = testWeld()
-                .beanClasses(HelloService.class, HelloServiceDecorator.class, DummyHelloService.class)
-                .initialize()) {
+        // First obtain dummy HelloService
+        HelloService helloService = weld.select(HelloService.class).get();
 
-            // Obtain dummy HelloService
-            HelloService helloService = container.select(HelloService.class).get();
-
-            // Test forbidden word
-            assertEquals("<censored>", helloService.hello("poo"));
-
-            // Test allowed word
-            assertEquals("Martin", helloService.hello("Martin"));
-        }
+        // Test forbidden and allowed words
+        assertEquals("<censored>", helloService.hello("poo"));
+        assertEquals("Martin", helloService.hello("Martin"));
     }
 
 }
