@@ -37,7 +37,7 @@ import com.githhub.mkouba.cdibee.HelloServiceDecorator;
 public class HelloServiceDecoratorTest {
 
     @Rule
-    public WeldInitiator weld = WeldInitiator.of(HelloService.class, HelloServiceDecorator.class, DummyHelloService.class);
+    public WeldInitiator weld = WeldInitiator.of(HelloServiceDecorator.class, DummyHelloService.class);
 
     @Test
     public void testDecorator() {

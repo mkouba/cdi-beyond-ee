@@ -36,14 +36,14 @@ public class EventHelloServiceTest {
         try (WeldContainer container = new Weld()
                 .disableDiscovery()
                 .property("org.jboss.weld.bootstrap.concurrentDeployment", false)
-                .beanClasses(HelloService.class, EventHelloService.class, DummyObserver.class)
+                .beanClasses(EventHelloService.class, DummyObserver.class)
                 .initialize()) {
 
             String name = "Brian";
             String expectedMessage = "Hello " + name + "!";
 
             // Get EventHelloService bean instance
-            HelloService helloService = container.select(HelloService.class).get();
+            HelloService helloService = container.select(EventHelloService.class).get();
 
             // Call hello() - should also fire an event
             assertEquals(expectedMessage, helloService.hello(name));
