@@ -15,6 +15,7 @@
  */
 package com.githhub.mkouba.cdibee.vertx;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.githhub.mkouba.cdibee.HelloService;
@@ -27,6 +28,7 @@ import io.vertx.ext.web.RoutingContext;
  *
  * @author Martin Kouba
  */
+@Dependent
 public class HelloRouteHandler implements Handler<RoutingContext> {
 
     @Inject
