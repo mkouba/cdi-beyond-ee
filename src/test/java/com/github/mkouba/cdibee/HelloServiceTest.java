@@ -24,8 +24,11 @@ import org.junit.Test;
 import com.githhub.mkouba.cdibee.HelloService;
 
 /**
+ * These tests demonstrate the basic usage of Weld SE Bootstrap API.
  *
  * @author Martin Kouba
+ * @see Weld
+ * @see WeldContainer
  */
 public class HelloServiceTest {
 
@@ -34,6 +37,7 @@ public class HelloServiceTest {
         WeldContainer container = new Weld().initialize();
         HelloService helloService = container.select(HelloService.class).get();
         assertEquals("Hello world!", helloService.hello("world"));
+        // What's wrong with this approach?
         container.shutdown();
     }
 

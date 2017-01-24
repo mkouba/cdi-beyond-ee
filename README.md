@@ -1,13 +1,9 @@
 # CDI Beyond Java EE
 
-This repository contains the source code of examples for a talk at [DevConf.cz 2017](https://devconf.cz/).
+This repository contains the source code of examples for the talk at [DevConf.cz 2017](https://devconf.cz/).
 
-## Build
+## Build and run the tests
 
-    mvn clean package
-
-## Run the tests
-    
     mvn clean test
 
 ## Test cases
@@ -15,7 +11,7 @@ This repository contains the source code of examples for a talk at [DevConf.cz 2
 ### Hello Weld SE Bootstrap API
 
 #### `com.github.mkouba.cdibee.HelloServiceTest`
-- demonstrates the basic usage of Weld bootstrap API, `try-with-resources` block and how to start Weld with bootstrap optimized for tests
+- demonstrates the basic usage of Weld SE Bootstrap API, `try-with-resources` block and how to start Weld with bootstrap optimized for tests
 
 ### Testing CDI components
 

@@ -25,7 +25,7 @@ import com.githhub.mkouba.cdibee.EventHelloService;
 import com.githhub.mkouba.cdibee.HelloService;
 
 /**
- * This test demonstrates the usage of Weld SE to test functionality provided by {@link EventHelloService}.
+ * This test demonstrates the usage of Weld SE Bootstrap API to test functionality provided by {@link EventHelloService}.
  *
  * @author Martin Kouba
  */
@@ -38,7 +38,7 @@ public class EventHelloServiceTest {
                 .property("org.jboss.weld.bootstrap.concurrentDeployment", false)
                 .beanClasses(HelloService.class, EventHelloService.class, DummyObserver.class)
                 .initialize()) {
-            
+
             String name = "Brian";
             String expectedMessage = "Hello " + name + "!";
 

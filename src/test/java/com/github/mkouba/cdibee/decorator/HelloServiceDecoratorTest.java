@@ -25,7 +25,7 @@ import com.githhub.mkouba.cdibee.HelloService;
 import com.githhub.mkouba.cdibee.HelloServiceDecorator;
 
 /**
- * This test demonstrates the usage of Weld SE to test functionality provided by {@link HelloServiceDecorator}.
+ * This test demonstrates the usage of Weld SE Bootstrap API to test functionality provided by {@link HelloServiceDecorator}.
  * 
  * <p>
  * This test makes use of {@link WeldInitiator} - a test rule provided by <tt>weld-junit4</tt> artifact. For more info check

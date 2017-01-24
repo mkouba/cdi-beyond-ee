@@ -16,6 +16,7 @@
 package com.githhub.mkouba.cdibee;
 
 /**
+ * Note that this interface itself does not represent a CDI bean, even though {@link #hello(String)} is a default method.
  *
  * @author Martin Kouba
  */
