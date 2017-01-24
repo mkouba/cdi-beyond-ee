@@ -17,6 +17,7 @@
 package com.githhub.mkouba.cdibee.vertx;
 
 import org.jboss.weld.vertx.WeldVerticle;
+import org.jboss.weld.vertx.web.WeldWebVerticle;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
@@ -40,7 +41,7 @@ public class HelloVerticle extends AbstractVerticle {
     public void start(Future<Void> startFuture) throws Exception {
 
         // This Verticle starts Weld SE container
-        final WeldVerticle weldVerticle = new WeldVerticle();
+        final WeldWebVerticle weldVerticle = new WeldWebVerticle();
 
         vertx.deployVerticle(weldVerticle, r -> {
 
@@ -49,6 +50,8 @@ public class HelloVerticle extends AbstractVerticle {
                 // Let's configure the router after Weld bootstrap finished
                 Router router = Router.router(vertx);
                 router.route().handler(BodyHandler.create());
+                // Register routes discovered by Weld
+                weldVerticle.registerRoutes(router);
 
                 // The handler matches all HTTP methods and accepts all content types
                 // Note the bean instance used as a blocking handler
@@ -59,12 +62,12 @@ public class HelloVerticle extends AbstractVerticle {
                     if (listen.succeeded()) {
                         startFuture.complete();
                     } else {
-                        startFuture.fail("HTTP server not listening: " + listen.cause().getMessage());
+                        startFuture.fail("HTTP server not listening: " + listen.cause());
                     }
                 });
 
             } else {
-                startFuture.fail("Weld verticle failure");
+                startFuture.fail("Weld verticle failure:" + r.cause());
             }
         });
     }

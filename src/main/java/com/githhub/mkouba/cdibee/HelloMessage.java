@@ -41,9 +41,6 @@ public @interface HelloMessage {
     @SuppressWarnings("all")
     public static class Literal extends AnnotationLiteral<HelloMessage> implements HelloMessage {
 
-        private Literal() {
-        }
-
         public static final Literal INSTANCE = new Literal();
     }
 
