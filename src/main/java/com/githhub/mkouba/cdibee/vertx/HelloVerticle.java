@@ -19,6 +19,8 @@ package com.githhub.mkouba.cdibee.vertx;
 import org.jboss.weld.vertx.WeldVerticle;
 import org.jboss.weld.vertx.web.WeldWebVerticle;
 
+import com.githhub.mkouba.cdibee.HelloService;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Verticle;
@@ -50,14 +52,18 @@ public class HelloVerticle extends AbstractVerticle {
                 // Let's configure the router after Weld bootstrap finished
                 Router router = Router.router(vertx);
                 router.route().handler(BodyHandler.create());
-                
+
                 // Register routes discovered by Weld - needed only for Weld Probe demonstration
                 weldVerticle.registerRoutes(router);
 
-                // Register a bean instance as a blocking handler
+                // Obtain bean instance
+                HelloService helloService = weldVerticle.container().select(HelloService.class)
+                        .get();
+
+                // Register a blocking handler for "/hello" route in our webapp
                 // The handler matches all HTTP methods and accepts all content types
-                router.route().path("/hello").blockingHandler(
-                        weldVerticle.container().select(HelloRouteHandler.class).get());
+                router.route().path("/hello").blockingHandler((ctx) -> ctx.response()
+                        .end(helloService.hello(ctx.request().getParam("name"))));
 
                 // Now start the webserver
                 vertx.createHttpServer().requestHandler(router::accept).listen(8080, (listen) -> {
