@@ -11,7 +11,7 @@ This repository contains the source code of examples for the talk at [DevConf.cz
 ### Hello Weld SE Bootstrap API
 
 #### `com.github.mkouba.cdibee.HelloServiceTest`
-- demonstrates the basic usage of Weld SE Bootstrap API, `try-with-resources` block and how to start Weld with bootstrap optimized for tests
+- demonstrates the basic usage of Weld SE Bootstrap API, `try-with-resources` block and how to start Weld optimized for tests
 
 ### Testing CDI components
 
@@ -27,9 +27,13 @@ This repository contains the source code of examples for the talk at [DevConf.cz
 
 #### `com.github.mkouba.cdibee.vertx.HelloVerticleTest`
 - demonstrates the usage of `WeldVerticle` - a Vert.x component provided by `weld-vertx-core` artifact
+- show how to register a CDI-powered route handler - `com.githhub.mkouba.cdibee.vertx.HelloRouteHandler`
 - for more info check https://github.com/weld/weld-vertx
 
 #### Try Probe - look into the internals
+Probe development tool allows to inspect the application CDI components at runtime.
+See also the [demo application hosted on OpenShift](http://probe-weld.itos.redhat.com/weld-numberguess/weld-probe).
+
 Just add `weld-vertx-probe` to the classpath (as defined in `pom.xml`) and set the `org.jboss.weld.development` system property to `true`, e.g. something like:
 
     java -Dorg.jboss.weld.development=true -cp 'target/cdi-beyond-ee-0.0.1-SNAPSHOT.jar:weld-vertx-probe.jar' com.githhub.mkouba.cdibee.vertx.HelloApp
