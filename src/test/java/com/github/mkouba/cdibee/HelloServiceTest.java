@@ -52,7 +52,7 @@ public class HelloServiceTest {
 
     @Test
     public void testHelloService3() {
-        // Start Weld with bootstrap optimized for tests
+        // Start Weld optimized for tests
         try (WeldContainer container = new Weld()
                 .disableDiscovery()
                 .packages(HelloService.class)

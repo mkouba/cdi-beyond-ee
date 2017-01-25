@@ -40,22 +40,24 @@ public class HelloVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> startFuture) throws Exception {
 
-        // This Verticle starts Weld SE container
+        // This Verticle starts Weld container
         final WeldWebVerticle weldVerticle = new WeldWebVerticle();
 
-        vertx.deployVerticle(weldVerticle, r -> {
+        vertx.deployVerticle(weldVerticle, deploy -> {
 
-            if (r.succeeded()) {
+            if (deploy.succeeded()) {
 
                 // Let's configure the router after Weld bootstrap finished
                 Router router = Router.router(vertx);
                 router.route().handler(BodyHandler.create());
-                // Register routes discovered by Weld
+                
+                // Register routes discovered by Weld - needed only for Weld Probe demonstration
                 weldVerticle.registerRoutes(router);
 
+                // Register a bean instance as a blocking handler
                 // The handler matches all HTTP methods and accepts all content types
-                // Note the bean instance used as a blocking handler
-                router.route().path("/hello").blockingHandler(weldVerticle.container().select(HelloRouteHandler.class).get());
+                router.route().path("/hello").blockingHandler(
+                        weldVerticle.container().select(HelloRouteHandler.class).get());
 
                 // Now start the webserver
                 vertx.createHttpServer().requestHandler(router::accept).listen(8080, (listen) -> {
@@ -67,7 +69,7 @@ public class HelloVerticle extends AbstractVerticle {
                 });
 
             } else {
-                startFuture.fail("Weld verticle failure:" + r.cause());
+                startFuture.fail("Weld verticle failure:" + deploy.cause());
             }
         });
     }
