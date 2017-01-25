@@ -16,7 +16,6 @@
       <version.weld-vertx>1.0.0.CR4</version.weld-vertx>
       <version.junit>4.12</version.junit>
       <version.rest.assured>3.0.1</version.rest.assured>
-      <version.slf4j>1.7.10</version.slf4j>
    </properties>
 
    <dependencies>
@@ -29,20 +28,8 @@
 
       <dependency>
          <groupId>org.jboss.weld.vertx</groupId>
-         <artifactId>weld-vertx-core</artifactId>
-         <version>${version.weld-vertx}</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.weld.vertx</groupId>
          <artifactId>weld-vertx-probe</artifactId>
          <version>${version.weld-vertx}</version>
-      </dependency>
-
-      <dependency>
-         <groupId>io.vertx</groupId>
-         <artifactId>vertx-web</artifactId>
-         <version>${version.vertx}</version>
       </dependency>
 
       <!-- Test dependencies -->
