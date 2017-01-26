@@ -23,7 +23,6 @@ import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.Test;
 
 import com.githhub.mkouba.cdibee.HelloService;
-import com.githhub.mkouba.cdibee.HelloServiceDecorator;
 
 /**
  * These tests demonstrate the basic usage of Weld SE Bootstrap API.
