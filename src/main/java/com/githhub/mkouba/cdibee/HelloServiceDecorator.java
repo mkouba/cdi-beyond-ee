@@ -28,6 +28,8 @@ import javax.inject.Inject;
 @Priority(1)
 @Decorator
 public class HelloServiceDecorator implements HelloService {
+    
+    public static final String FORBIDDEN_WORD_REPLACEMENT = "<censored>";
 
     private static final String[] FORBIDDEN_WORDS = { "poo" };
 
@@ -39,7 +41,7 @@ public class HelloServiceDecorator implements HelloService {
         if (name != null) {
             for (String word : FORBIDDEN_WORDS) {
                 if (name.toLowerCase().equals(word.toLowerCase())) {
-                    name = "<censored>";
+                    name = FORBIDDEN_WORD_REPLACEMENT;
                 }
             }
         }

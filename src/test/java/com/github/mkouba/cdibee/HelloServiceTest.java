@@ -15,6 +15,7 @@
  */
 package com.github.mkouba.cdibee;
 
+import static com.githhub.mkouba.cdibee.HelloServiceDecorator.FORBIDDEN_WORD_REPLACEMENT;
 import static org.junit.Assert.assertEquals;
 
 import org.jboss.weld.environment.se.Weld;
@@ -22,6 +23,7 @@ import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.Test;
 
 import com.githhub.mkouba.cdibee.HelloService;
+import com.githhub.mkouba.cdibee.HelloServiceDecorator;
 
 /**
  * These tests demonstrate the basic usage of Weld SE Bootstrap API.
@@ -46,7 +48,7 @@ public class HelloServiceTest {
         // Use try-with-resources to shutdown Weld correctly
         try (WeldContainer container = new Weld().initialize()) {
             HelloService helloService = container.select(HelloService.class).get();
-            assertEquals("Hello world!", helloService.hello("world"));
+            assertEquals("Hello " + FORBIDDEN_WORD_REPLACEMENT + "!", helloService.hello("poo"));
         }
     }
 
@@ -56,10 +58,9 @@ public class HelloServiceTest {
         try (WeldContainer container = new Weld()
                 .disableDiscovery()
                 .packages(HelloService.class)
-                .property("org.jboss.weld.bootstrap.concurrentDeployment", false)
-                .initialize()) {
+                .property("org.jboss.weld.bootstrap.concurrentDeployment", false).initialize()) {
             HelloService helloService = container.select(HelloService.class).get();
-            assertEquals("Hello world!", helloService.hello("world"));
+            assertEquals("Hello me!", helloService.hello("me"));
         }
     }
 
