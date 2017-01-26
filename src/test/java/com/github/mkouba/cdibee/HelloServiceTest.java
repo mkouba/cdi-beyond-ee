@@ -34,7 +34,7 @@ import com.githhub.mkouba.cdibee.HelloService;
 public class HelloServiceTest {
 
     @Test
-    public void testHelloService1() {
+    public void testHello() {
         WeldContainer container = new Weld().initialize();
         HelloService helloService = container.select(HelloService.class).get();
         assertEquals("Hello world!", helloService.hello("world"));
@@ -43,7 +43,7 @@ public class HelloServiceTest {
     }
 
     @Test
-    public void testHelloService2() {
+    public void testForbiddenName() {
         // Use try-with-resources to shutdown Weld correctly
         try (WeldContainer container = new Weld().initialize()) {
             HelloService helloService = container.select(HelloService.class).get();
@@ -52,7 +52,7 @@ public class HelloServiceTest {
     }
 
     @Test
-    public void testHelloService3() {
+    public void testHelloOptimized() {
         // Start Weld optimized for tests
         try (WeldContainer container = new Weld()
                 .disableDiscovery()
