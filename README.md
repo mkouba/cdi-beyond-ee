@@ -27,7 +27,7 @@ This repository contains the source code of examples for the talk at [DevConf.cz
 
 #### `com.github.mkouba.cdibee.vertx.HelloVerticleTest`
 - demonstrates the usage of `WeldVerticle` - a Vert.x component provided by `weld-vertx-core` artifact
-- show how to register a CDI-powered route handler - `com.githhub.mkouba.cdibee.vertx.HelloRouteHandler`
+- shows how to register a blocking handler backed by a `HelloService` bean instance
 - for more info check https://github.com/weld/weld-vertx
 
 #### Try Probe - look into the internals
