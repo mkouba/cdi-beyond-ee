@@ -62,8 +62,9 @@ public class HelloVerticle extends AbstractVerticle {
 
                 // Register a blocking handler for "/hello" route in our webapp
                 // The handler matches all HTTP methods and accepts all content types
-                router.route().path("/hello").blockingHandler((ctx) -> ctx.response()
-                        .end(helloService.hello(ctx.request().getParam("name"))));
+                router.route().path("/hello").blockingHandler((ctx) -> {
+                    ctx.response().end(helloService.hello(ctx.request().getParam("name")));
+                });
 
                 // Now start the webserver
                 vertx.createHttpServer().requestHandler(router::accept).listen(8080, (listen) -> {

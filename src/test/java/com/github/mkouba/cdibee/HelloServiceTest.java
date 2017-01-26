@@ -57,7 +57,8 @@ public class HelloServiceTest {
         try (WeldContainer container = new Weld()
                 .disableDiscovery()
                 .packages(HelloService.class)
-                .property("org.jboss.weld.bootstrap.concurrentDeployment", false).initialize()) {
+                .property("org.jboss.weld.bootstrap.concurrentDeployment", false)
+                .initialize()) {
             HelloService helloService = container.select(HelloService.class).get();
             assertEquals("Hello me!", helloService.hello("me"));
         }
