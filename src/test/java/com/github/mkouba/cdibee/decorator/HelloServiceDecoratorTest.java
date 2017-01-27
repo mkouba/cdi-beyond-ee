@@ -37,7 +37,8 @@ import com.githhub.mkouba.cdibee.HelloServiceDecorator;
 public class HelloServiceDecoratorTest {
 
     @Rule
-    public WeldInitiator weld = WeldInitiator.of(HelloServiceDecorator.class, DummyHelloService.class);
+    public WeldInitiator weld = WeldInitiator.of(HelloServiceDecorator.class,
+            DummyHelloService.class);
 
     @Test
     public void testDecorator() {
@@ -47,6 +48,15 @@ public class HelloServiceDecoratorTest {
         // Test forbidden and allowed words
         assertEquals("<censored>", helloService.hello("poo"));
         assertEquals("Martin", helloService.hello("Martin"));
+    }
+
+    static class DummyHelloService implements HelloService {
+
+        @Override
+        public String hello(String name) {
+            return name;
+        }
+
     }
 
 }

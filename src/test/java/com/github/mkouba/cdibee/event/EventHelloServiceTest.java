@@ -17,11 +17,19 @@ package com.github.mkouba.cdibee.event;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
+import org.junit.After;
 import org.junit.Test;
 
 import com.githhub.mkouba.cdibee.EventHelloService;
+import com.githhub.mkouba.cdibee.HelloMessage;
 import com.githhub.mkouba.cdibee.HelloService;
 
 /**
@@ -31,11 +39,12 @@ import com.githhub.mkouba.cdibee.HelloService;
  */
 public class EventHelloServiceTest {
 
+    private static List<String> MESSAGES = new ArrayList<>();
+
     @Test
     public void testHello() {
         try (WeldContainer container = new Weld()
                 .disableDiscovery()
-                .property("org.jboss.weld.bootstrap.concurrentDeployment", false)
                 .beanClasses(EventHelloService.class, DummyObserver.class)
                 .initialize()) {
 
@@ -47,14 +56,28 @@ public class EventHelloServiceTest {
 
             // Call hello() - should also fire an event
             assertEquals(expectedMessage, helloService.hello(name));
-            assertEquals(1, DummyObserver.MESSAGES.size());
-            assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
+            assertEquals(1, MESSAGES.size());
+            assertEquals(expectedMessage, MESSAGES.get(0));
 
             // Call hello() again - a new event should not be fired
             assertEquals(expectedMessage, helloService.hello(name));
-            assertEquals(1, DummyObserver.MESSAGES.size());
-            assertEquals(expectedMessage, DummyObserver.MESSAGES.get(0));
+            assertEquals(1, MESSAGES.size());
+            assertEquals(expectedMessage, MESSAGES.get(0));
         }
+    }
+
+    @ApplicationScoped
+    static class DummyObserver {
+
+        public void observeHelloMessage(@Observes @HelloMessage String message) {
+            MESSAGES.add(message);
+        }
+
+    }
+
+    @After
+    public void cleanup() {
+        MESSAGES.clear();
     }
 
 }
