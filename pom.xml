@@ -81,18 +81,4 @@
 
    </build>
 
-   <!-- Remove once the weld-junit and weld-vertx versions hit Maven Central -->
-   <repositories>
-      <repository>
-         <id>jboss-repo</id>
-         <url>https://repository.jboss.org/nexus/content/groups/public</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
-
 </project>
